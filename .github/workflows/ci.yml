@@ -59,14 +59,14 @@ jobs:
         yarn run build
 
 
-    # # Run backend tests
-    # - name: Run Backend Tests
-    #   env:
-    #     MONGO_URI: ${{ secrets.MONGO_URI }}
-    #     JWT_SECRET: ${{ secrets.JWT_SECRET }}
-    #     PORT: ${{ secrets.PORT }}
-    #   working-directory: ./backend
-    #   run: npm test
+    # Run backend tests
+    #- name: Run Backend Tests
+     # env:
+      #  MONGO_URI: ${{ secrets.MONGO_URI }}
+       # JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        #PORT: ${{ secrets.PORT }}
+      #working-directory: ./backend
+      #run: npm test
 
 
     - run: npm ci
@@ -78,3 +78,4 @@ jobs:
     - run: pm2 start all
 
     - run: pm2 restart all
+    
