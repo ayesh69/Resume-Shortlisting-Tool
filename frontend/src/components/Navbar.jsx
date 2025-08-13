@@ -19,6 +19,7 @@ const Navbar = () => {
             <Link to="/tasks" className="mr-4">Create Resume</Link>
             <Link to="/tasks" className="mr-4">Upload Resume</Link>
             <Link to="/tasks" className="mr-4">View Resume</Link>
+            <Link to="/tasks" className="mr-4">Viewww Resume</Link>
             <Link to="/tasks" className="mr-4">CRUD</Link>
             <Link to="/profile" className="mr-4">Profile</Link>
             <button
