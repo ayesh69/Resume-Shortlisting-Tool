@@ -1,4 +1,3 @@
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const http = require('http');
@@ -298,4 +297,4 @@ describe('DeleteTask Function Test', () => {
     findByIdStub.restore();
   });
 
-});
+}); 
