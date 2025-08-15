@@ -16,12 +16,7 @@ const Navbar = () => {
       <div>
         {user ? (
           <>
-            <Link to="/tasks" className="mr-4">Create Resume</Link>
-            <Link to="/tasks" className="mr-4">Upload Resume</Link>
-            <Link to="/tasks" className="mr-4">View Resume</Link>
-            <Link to="/tasks" className="mr-4">View Resumeeeee</Link>
-            <Link to="/tasks" className="mr-4">View next Resumeeeee</Link>
-            <Link to="/tasks" className="mr-4">CRUD</Link>
+            <Link to="/tasks" className="mr-4">Submit Resume</Link>
             <Link to="/profile" className="mr-4">Profile</Link>
             <button
               onClick={handleLogout}
