@@ -1,21 +1,44 @@
 # Resume Shortlisting Tool
+# Requirements*
+- Node.js
+- Jira account
+- npm or yarn
+- MongoDB
+- Git
 
-## Overview
-A full-stack application that automates resume processing and shortlisting, helping recruiters quickly identify the most suitable candidates.
-
-## Tech Stack
-- **Backend**: Node.js, Express.js, MongoDB
-- **Frontend**: React.js
-- **DevOps**: GitHub Actions, AWS EC2, PM2
-- **Project Management**: JIRA
+*Features*
+- User Authentication & Authorization  
+- Enter CV     
+- Frontend built with React   
+- Backend (Node.js, Express, MongoDB)  
+PM2 + Nginx for production deployment (CI/CD)
 
 ## To view Jira Project, please click on the link below:
-    https://connect-team-uxrelvjk.atlassian.net/jira/software/projects/RST/boards/34/timeline 
+https://connect-team-uxrelvjk.atlassian.net/jira/software/projects/RST/boards/34/timeline 
 
-## How to Install and run project:
-## Prerequisites
+#
+*Installation*
+ install dependencies: npm install or yarn install
 
-1. Clone the repository:
-   git clone https://github.com/ayesh69/Resume-Shortlisting-Tool
-2. 
+*Local Setup*  
+---------------
+1. Setup Backend  
+2. cd backend  
+3. cp .env.example .env  # Add your own environment as below 
+4. npm install
+
+*Environment*
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/myDatabase?retryWrites=true&w=majority
+JWT_SECRET=your_secret  
+PORT=5000 
+
+*database*
+MongoDb cluster : Cluster0
+database name : test
+
+*Account already registered
+email: ayesh@gmail.com
+password: 1234
+
+
 
