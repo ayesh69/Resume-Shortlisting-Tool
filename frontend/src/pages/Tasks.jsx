@@ -48,7 +48,7 @@ const ResumeManager = () => {
     setFormData({ ...formData, resumeFile: e.target.files[0] });
   };
 
-const handleSubmit = async e => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = new FormData();
