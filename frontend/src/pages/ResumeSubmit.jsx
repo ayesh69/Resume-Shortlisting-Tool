@@ -30,7 +30,7 @@ export default function ResumeSubmit() {
     try {
       await axios.post('/api/resume/submit', data);
       alert('Resume submitted!');
-      // Optionally reset form here
+      
     } catch (err) {
       alert('Error submitting resume.');
     }

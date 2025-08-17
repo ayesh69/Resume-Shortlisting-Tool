@@ -25,7 +25,6 @@ res.status(201).json(newResume); // <-- return the created resume object
   }
 };
 
-// Get resumes of logged-in user
 /*const getResumes = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ message: 'Not authorized' });
@@ -44,19 +43,16 @@ const getResumes = async (req, res) => {
 
     const userId = req.user._id;
 
-    // Only get resumes submitted by this user
     const resumes = await Resume.find({ user: userId })
       .sort({ createdAt: -1 });
 
-    res.json(resumes); // Return full resume objects
+    res.json(resumes);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error fetching resumes' });
   }
 };
 
-
-// Delete a resume of logged-in user
 const deleteResume = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ message: 'Not authorized' });
