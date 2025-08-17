@@ -28,7 +28,7 @@ const ResumeManager = () => {
           headers: { Authorization: `Bearer ${user.token}` },
         });
 
-        setResumes(res.data.resumes);
+        setResumes(res.data);
       } catch (err) {
         console.error(err);
         alert('Failed to fetch your resumes');
