@@ -12,21 +12,21 @@ const submitResume = async (req, res) => {
       user: req.user._id,
       name,
       email,
-      skills: Array.isArray(skills) 
-  ? skills 
-  : skills.split(',').map(skill => skill.trim()),
-
+      skills: Array.isArray(skills)
+        ? skills
+        : skills.split(',').map(skill => skill.trim()),
       experience: Number(experience),
       resumeFile
     });
 
-    await newResume.save();
-res.status(201).json(newResume); // <-- return the created resume object
+    const savedResume = await newResume.save();
+    res.status(201).json(savedResume);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error submitting resume.' });
   }
 };
+
 
 /*const getResumes = async (req, res) => {
   try {
