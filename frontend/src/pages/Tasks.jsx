@@ -13,6 +13,7 @@ const ResumeManager = () => {
     resumeFile: null,
   });
   const [resumes, setResumes] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const ResumeManager = () => {
           headers: { Authorization: `Bearer ${user.token}` },
         });
 
-        setResumes(res.data);
+        setResumes(res.data.resumes);
       } catch (err) {
         console.error(err);
         alert('Failed to fetch your resumes');
@@ -230,108 +231,138 @@ const ResumeManager = () => {
         </div>
 
         {/* Right block: Submitted Resumes */}
-        <div style={{ flex: '2 1 600px', minWidth: '300px' }}>
-          <h2 className="text-2xl font-semibold mb-5 text-indigo-700" style={{ letterSpacing: '0.03em' }}>
-            Your Submitted Resumes
-          </h2>
+        {/* Right block: Submitted Resumes */}
+<div style={{ flex: '2 1 600px', minWidth: '300px' }}>
+  <h2
+    className="text-2xl font-semibold mb-5 text-indigo-700"
+    style={{ letterSpacing: '0.03em' }}
+  >
+    Your Submitted Resumes
+  </h2>
 
-          {resumes.length === 0 ? (
-            <p style={{ fontSize: '16px', color: '#475569' }}>No resumes submitted yet.</p>
-          ) : (
-            <ul
+  {Array.isArray(resumes) && resumes.length > 0 ? (
+    <ul
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: '20px',
+        padding: 0,
+        listStyle: 'none',
+        margin: 0,
+      }}
+    >
+      {resumes.map((r) => (
+        <li
+          key={r._id}
+          style={{
+            backgroundColor: '#f9fafb',
+            borderRadius: '10px',
+            padding: '18px 24px',
+            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
+            borderLeft: '6px solid #5c6ac4',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '100%',
+          }}
+        >
+          <div>
+            <p
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                gap: '20px',
-                padding: 0,
-                listStyle: 'none',
-                margin: 0,
+                fontWeight: '700',
+                fontSize: '18px',
+                marginBottom: '6px',
               }}
             >
-              {resumes.map((r) => (
-                <li
-                  key={r._id}
-                  style={{
-                    backgroundColor: '#f9fafb',
-                    borderRadius: '10px',
-                    padding: '18px 24px',
-                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
-                    borderLeft: '6px solid #5c6ac4',
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    height: '100%',
-                  }}
+              {r.name} — {r.experience} yrs
+            </p>
+            <p style={{ color: '#4f46e5', marginBottom: '4px' }}>
+              Email: {r.email}
+            </p>
+            <p style={{ marginBottom: '10px' }}>
+              Skills: {(r.skills || []).join(', ')}
+            </p>
+            {r.resumeFile && (
+              <p style={{ marginBottom: '10px' }}>
+                <a
+                  href={`/uploads/${r.resumeFile}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#4f46e5', textDecoration: 'underline' }}
                 >
-                  <div>
-                    <p style={{ fontWeight: '700', fontSize: '18px', marginBottom: '6px' }}>
-                      {r.name} — {r.experience} yrs
-                    </p>
-                    <p style={{ color: '#4f46e5', marginBottom: '4px' }}>Email: {r.email}</p>
-                    <p style={{ marginBottom: '10px' }}>Skills: {(r.skills || []).join(', ')}</p>
-                    {r.resumeFile && (
-                      <p style={{ marginBottom: '10px' }}>
-                        <a
-                          href={`/uploads/${r.resumeFile}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: '#4f46e5', textDecoration: 'underline' }}
-                        >
-                          View Resume
-                        </a>
-                      </p>
-                    )}
-                  </div>
-                  <div style={{ display: 'flex', gap: '12px', marginTop: 'auto' }}>
-                    <button
-                      onClick={() => handleDelete(r._id)}
-                      style={{
-                        backgroundColor: '#ef4444',
-                        color: '#fff',
-                        borderRadius: '8px',
-                        padding: '8px 16px',
-                        fontWeight: '600',
-                        border: 'none',
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(239, 68, 68, 0.5)',
-                        transition: 'background-color 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#b91c1c')}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ef4444')}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() => {
-                        const updatedName = prompt('Enter new name', r.name);
-                        const updatedSkills = prompt('Enter new skills (comma separated)', (r.skills || []).join(', '));
-                        handleUpdate(r._id, { name: updatedName, skills: updatedSkills });
-                      }}
-                      style={{
-                        backgroundColor: '#fbbf24',
-                        color: '#1e293b',
-                        borderRadius: '8px',
-                        padding: '8px 16px',
-                        fontWeight: '600',
-                        border: 'none',
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(251, 191, 36, 0.5)',
-                        transition: 'background-color 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#b45309')}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#fbbf24')}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    </div>
+                  View Resume
+                </a>
+              </p>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: '12px', marginTop: 'auto' }}>
+            <button
+              onClick={() => handleDelete(r._id)}
+              style={{
+                backgroundColor: '#ef4444',
+                color: '#fff',
+                borderRadius: '8px',
+                padding: '8px 16px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(239, 68, 68, 0.5)',
+                transition: 'background-color 0.3s ease',
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = '#b91c1c')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = '#ef4444')
+              }
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => {
+                const updatedName = prompt('Enter new name', r.name);
+                const updatedSkills = prompt(
+                  'Enter new skills (comma separated)',
+                  (r.skills || []).join(', ')
+                );
+                handleUpdate(r._id, {
+                  name: updatedName,
+                  skills: updatedSkills,
+                });
+              }}
+              style={{
+                backgroundColor: '#fbbf24',
+                color: '#1e293b',
+                borderRadius: '8px',
+                padding: '8px 16px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(251, 191, 36, 0.5)',
+                transition: 'background-color 0.3s ease',
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = '#b45309')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = '#fbbf24')
+              }
+            >
+              Edit
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p style={{ fontSize: '16px', color: '#475569' }}>
+      No resumes submitted yet.
+    </p>
+  )}
+</div>
+</div>
+</div>
   );
 };
 
