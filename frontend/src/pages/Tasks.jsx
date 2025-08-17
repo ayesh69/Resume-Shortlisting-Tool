@@ -48,42 +48,34 @@ const ResumeManager = () => {
     setFormData({ ...formData, resumeFile: e.target.files[0] });
   };
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      formData.append("skills", form.skills); // comma-separated
+      formData.append("experience", form.experience);
+      if (form.resumeFile) {
+        formData.append("resumeFile", form.resumeFile);
+      }
 
-  const data = new FormData();
-  data.append('name', formData.name);
-  data.append('email', formData.email);
-  data.append('skills', formData.skills);
-  data.append('experience', formData.experience);
-  data.append('resumeFile', formData.resumeFile);
+      const res = await axios.post(
+        "http://localhost:5000/api/resumes/submit",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
 
-  try {
-    const res = await axios.post('/api/resumes/submit', data, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    alert('Resume submitted successfully!');
-
-    // ✅ add the single new resume object to the list
-    setResumes((prev) => [...prev, res.data]);
-
-    setFormData({
-      name: '',
-      email: '',
-      skills: '',
-      experience: '',
-      resumeFile: null,
-    });
-  } catch (err) {
-    console.error(err);
-    alert('Error submitting resume');
-  }
-};
-
+      console.log("Resume submitted:", res.data);
+      setForm({ name: "", email: "", skills: "", experience: "", resumeFile: null });
+      fetchResumes(); // refresh list
+    } catch (err) {
+      console.error("Error submitting resume:", err);
+    }
+  };
 
   const handleDelete = async (resumeId) => {
     try {

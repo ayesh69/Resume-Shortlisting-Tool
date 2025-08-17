@@ -12,7 +12,10 @@ const submitResume = async (req, res) => {
       user: req.user._id,
       name,
       email,
-      skills: skills.split(',').map(skill => skill.trim()),
+      skills: Array.isArray(skills) 
+  ? skills 
+  : skills.split(',').map(skill => skill.trim()),
+
       experience: Number(experience),
       resumeFile
     });
